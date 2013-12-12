@@ -62,6 +62,18 @@ class UploadBehavior extends ModelBehavior {
 		'application/pdf',
 		'application/postscript',
 	);
+	
+	protected $_videoMimetypes = array(
+		'video/mpeg',
+		'video/mp4',
+		'video/ogg',
+		'video/quicktime',
+		'video/webm',
+		'video/x-matroska',
+		'video/x-ms-wmv',
+		'video/x-msvideo',
+		'video/x-flv'
+	);
 
 	protected $_pathMethods = array('flat', 'primaryKey', 'random');
 
@@ -1129,7 +1141,7 @@ class UploadBehavior extends ModelBehavior {
       
       
 			
-      if( !$Folder->create( $server_path . $route))
+      if( !$Folder->create( $server_path . $route, 0777))
       {
       }
       else
@@ -1217,6 +1229,7 @@ class UploadBehavior extends ModelBehavior {
 	public function _createThumbnails(&$model, $field, $path, $thumbnailPath) {
 		$isImage = $this->_isImage($model, $this->runtime[$model->alias][$field]['type']);
 		$isMedia = $this->_isMedia($model, $this->runtime[$model->alias][$field]['type']);
+		$isVideo = $this->_isVideo($model, $this->runtime[$model->alias][$field]['type']);
 		$createThumbnails = $this->settings[$model->alias][$field]['thumbnails'];
 		$hasThumbnails = !empty($this->settings[$model->alias][$field]['thumbnailSizes']);
 
@@ -1235,6 +1248,11 @@ class UploadBehavior extends ModelBehavior {
 			}
 		}
 		
+		if( $isVideo)
+		{
+		  $this->_createVideo( $model, $field, $path, $thumbnailPath);
+		}
+		
 	}
 
 	public function _isImage(&$model, $mimetype) {
@@ -1244,6 +1262,10 @@ class UploadBehavior extends ModelBehavior {
 	public function _isMedia(&$model, $mimetype) {
 		return in_array($mimetype, $this->_mediaMimetypes);
 	}
+	
+	public function _isVideo(&$model, $mimetype) {
+		return in_array($mimetype, $this->_videoMimetypes);
+	}
 
 	public function _getMimeType($filePath) {
 		if (class_exists('finfo')) {
@@ -1252,6 +1274,82 @@ class UploadBehavior extends ModelBehavior {
 		}
 
 		return mime_content_type($filePath);
+	}
+	
+	public function _createVideo(&$model, $field, $path, $thumbnailPath)
+	{
+	  $srcFile  = $path . $model->data[$model->alias][$field];
+    $pathInfo = $this->_pathinfo($srcFile);
+    $this->_mkPath($thumbnailPath);
+	  App::import( 'Vendor', 'Upload.FFmpeg', array('file' => 'FFmpeg/src/ffmpeg.class.php'));
+    
+    $FFmpeg = new FFmpeg( Configure::read( 'FFMpegPath'). 'ffmpeg');
+    $FFmpeg->redirectOutput( " ");
+    
+    foreach ($this->settings[$model->alias][$field]['thumbnailSizes'] as $size => $geometry) 
+    {
+			$thumbnailPathSized = $this->_pathThumbnail($model, $field, compact(
+				'geometry', 'size', 'thumbnailPath'
+			));
+
+      $FFmpeg->input( $srcFile)->thumb( $geometry, 1, 1)->ready();
+      $destFile = $pathInfo ['dirname'] . '/'. $size . '_' . $pathInfo ['filename'] .'.jpg';
+      $FFmpeg->output( $destFile)->ready();
+		}
+    
+    // FLV
+    $FFmpeg = new FFmpeg( Configure::read( 'FFMpegPath'). 'ffmpeg');
+    $FFmpeg->redirectOutput( " > /dev/null 2<&1 &");
+    
+    $destFile = $pathInfo ['dirname'] . '/'. $pathInfo ['filename'] . '.flv';
+    $FFmpeg->input( $srcFile);
+    $FFmpeg->audioSamplingFrequency( '44100');
+    $FFmpeg->forceFormat( 'flv');
+    $FFmpeg->audioChannels( 2);
+    $FFmpeg->audioBitrate( '256k');
+    $FFmpeg->output( $destFile)->ready();
+    
+    // mp4
+    // -i %1 -b 1500k -vcodec libx264 -vpre slow -vpre baseline -g 30 -s 640x360 %1.mp4
+    $FFmpeg = new FFmpeg( Configure::read( 'FFMpegPath'). 'ffmpeg');
+    $FFmpeg->redirectOutput( " > /dev/null 2<&1 &");
+    $destFile = $pathInfo ['dirname'] . '/'. $pathInfo ['filename'] . '.mp4';
+    $FFmpeg->input( $srcFile);
+    $FFmpeg->audioSamplingFrequency( '44100');
+    $FFmpeg->forceFormat( 'mp4');
+    $FFmpeg->videoCodec( 'libx264');
+    $FFmpeg->audioChannels( 2);
+    $FFmpeg->bitrate( '1500k');
+    $FFmpeg->audioBitrate( '256k');
+    $FFmpeg->output( $destFile)->ready();
+    
+    // webm
+    // -i %1 -b 1500k -vcodec libvpx  -acodec libvorbis -ab 160000 -f webm    -g 30 -s 640x360 %1.webm
+    $FFmpeg = new FFmpeg( Configure::read( 'FFMpegPath'). 'ffmpeg');
+    $FFmpeg->redirectOutput( " > /dev/null 2<&1 &");
+    $destFile = $pathInfo ['dirname'] . '/'. $pathInfo ['filename'] . '.webm';
+    $FFmpeg->input( $srcFile);
+    $FFmpeg->audioSamplingFrequency( '44100');
+    $FFmpeg->forceFormat( 'webm');
+    $FFmpeg->audioCodec( 'libvorbis');
+    $FFmpeg->bitrate( '1500k');
+    $FFmpeg->videoCodec( 'libvpx');
+    $FFmpeg->audioBitrate( '160000');
+    $FFmpeg->output( $destFile)->ready();
+    
+    // ogv
+    // -i %1 -b 1500k -vcodec libtheora  -acodec libvorbis -ab 160000   -g 30 -s 640x360 %1.ogv
+    $FFmpeg = new FFmpeg( Configure::read( 'FFMpegPath'). 'ffmpeg');
+    $FFmpeg->redirectOutput( " > /dev/null 2<&1 &");
+    $destFile = $pathInfo ['dirname'] . '/'. $pathInfo ['filename'] . '.ogv';
+    $FFmpeg->input( $srcFile);
+    $FFmpeg->audioSamplingFrequency( '44100');
+    $FFmpeg->forceFormat( 'ogv');
+    $FFmpeg->audioCodec( 'libvorbis');
+    $FFmpeg->bitrate( '1500k');
+    $FFmpeg->videoCodec( 'libtheora');
+    $FFmpeg->audioBitrate( '160000');
+    $FFmpeg->output( $destFile)->ready();
 	}
 
 	public function _prepareFilesForDeletion(&$model, $field, $data, $options) {

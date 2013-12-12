@@ -73,7 +73,15 @@ class UploadUtil
       $size = '';
     }
     
-    $path = Configure::read( 'Path.files.photos') . $data [$options ['fields']['dir']] .'/'. $size. $data [$options ['fields']['filename']];
+    $filename = $data [$options ['fields']['filename']];
+    
+    if( $data ['content_type'] == 'video')
+    {
+      $ext = pathinfo( $filename, PATHINFO_EXTENSION);
+      $filename = str_replace( '.'. $ext, '.jpg', $filename);
+    }
+    
+    $path = Configure::read( 'Path.files.photos') . $data [$options ['fields']['dir']] .'/'. $size. $filename;
     
     return $path;
   }
