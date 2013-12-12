@@ -421,8 +421,7 @@ class UploadHelper extends AppHelper
                 "<span class=\"qq-upload-status-text\">{statusText}</span>" +
                 "</li>"
         });
-        
-        console && console.log( $(_this).data());
+
       })
     ';
     
