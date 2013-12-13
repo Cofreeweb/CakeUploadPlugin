@@ -16,6 +16,32 @@ class UploadUtil
     return $types [$data ['mimetype']];
   }
   
+/**
+ * Retorna la extensión de un fichero
+ *
+ * @param string $filename 
+ * @return string
+ */
+  public function fileExt( $filename)
+  {
+    $ext = pathinfo( $filename, PATHINFO_EXTENSION);
+    return $ext;
+  }
+  
+/**
+ * Cambia la extensión de el nombre de un fichero
+ *
+ * @param string $filename 
+ * @param string $ext 
+ * @return string
+ */
+  public function changeExt( $filename, $ext)
+  {
+    $ext2 = self::fileExt( $filename);
+    $filename = str_replace( '.'. $ext2, '.'. $ext, $filename);
+    return $filename;
+  }
+  
   
   public function thumbailPath( $data)
   {
@@ -45,6 +71,28 @@ class UploadUtil
     $type = $data ['content_type'];
     
     return Configure::read( 'Upload.'. $type);
+  }
+  
+  public function filePath( $data, $options = array())
+  {
+    if( !isset( $data ['id']))
+    {
+      $data = current( $data);
+    }
+    
+    $_options = array(
+        'size' => 'thm',
+        'fields' => array(
+            'dir' => 'path',
+            'filename' => 'filename'
+        )
+    );
+    
+    $options = array_merge( $_options, $options);
+    
+    $path = Configure::read( 'Path.files.photos') . $data [$options ['fields']['dir']] .'/'. $data [$options ['fields']['filename']];
+    
+    return $path;
   }
   
   function imagePath( $data, $options = array())

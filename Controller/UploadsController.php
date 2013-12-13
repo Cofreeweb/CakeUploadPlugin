@@ -60,10 +60,9 @@ class UploadsController extends UploadAppController
     }
     else
     {
-      // $this->set( 'errors', $this->validateErrors());
       $this->set( 'errors', array( $field => $this->request->form [$field]));
-      $this->set( 'success', false);
-      $this->set( '_serialize', array( 'success', 'errors'));
+      $this->set( 'testing', 'test');
+      $this->set( '_serialize', array( 'success', 'errors', 'testing'));
     }
   }
   
@@ -173,8 +172,19 @@ class UploadsController extends UploadAppController
     }
     else
     {
+      $errors = $this->Upload->invalidFields();
+      
+      if( isset( $errors ['filename']))
+      {
+        $this->set( 'error', current( $errors ['filename']));
+      }
+      else
+      {
+        $this->set( 'error', false);
+      }
+
       $this->set( 'success', false);
-      $this->set( '_serialize', array( 'success'));
+      $this->set( '_serialize', array( 'success', 'error'));
     }    
   }
 }

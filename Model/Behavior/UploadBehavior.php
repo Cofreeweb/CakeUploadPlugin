@@ -221,6 +221,12 @@ class UploadBehavior extends ModelBehavior {
 	public function beforeSave(Model $model) {
 		$this->_removingOnly = array();
 		foreach ($this->settings[$model->alias] as $field => $options) {
+		  
+		  if( !$this->validateTypeFile( $model, $field))
+			{
+			  return false;
+			}
+			
 			if (!isset($model->data[$model->alias][$field])) continue;
 			if (!is_array($model->data[$model->alias][$field])) continue;
 
@@ -290,7 +296,8 @@ class UploadBehavior extends ModelBehavior {
 				$thumbnailPath .= $tempPath . DS;
 			}
 			$tmp = $this->runtime[$model->alias][$field]['tmp_name'];
-			$filePath = $path . $model->data[$model->alias][$field];
+			$filePath = $path . $model->data[$model->alias][$field];			
+			
 			if (!$this->handleUploadedFile($model->alias, $field, $tmp, $filePath)) {
 				$model->invalidate($field, 'Unable to move the uploaded file to '.$filePath);
         // throw new UploadException('Unable to upload file');
@@ -316,6 +323,34 @@ class UploadBehavior extends ModelBehavior {
 			$result[] = $this->unlink($file);
 		}
 		return $result;
+	}
+	
+	public function validateTypeFile( Model $model, $field)
+	{
+	  if( isset( $model->data[$model->alias]['content_type']))
+	  {
+	    $config = Configure::read( 'Upload.'. $model->data[$model->alias]['content_type']);
+	    
+	    if( $config && isset( $config ['type']) && $config ['type'] == 'image')
+	    {
+	      if( !in_array( $model->data[$model->alias][$field]['type'], $this->_imageMimetypes))
+	      {
+	        $model->invalidate($field, __d( "upload", "El tipo de archivo no es de imagen"));
+	        return false;
+	      }
+	    }
+	    
+	    if( $config && isset( $config ['type']) && $config ['type'] == 'video')
+	    {
+	      if( !in_array( $model->data[$model->alias][$field]['type'], $this->_videoMimetypes))
+	      {
+	        $model->invalidate( $field, __d( "upload", "El tipo de archivo no es de video"));
+	        return false;
+	      }
+	    }
+	  }
+	  
+	  return true;
 	}
 
 	public function handleUploadedFile($modelAlias, $field, $tmp, $filePath) {

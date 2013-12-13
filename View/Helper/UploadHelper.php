@@ -386,7 +386,14 @@ class UploadHelper extends AppHelper
                 onComplete: function( id, name, response, xhr){
                     $(".ace-thumbnails", _this).append( response.body);
                     $(".qq-upload-success", _this).remove();
-                    
+                    var uploader = _this.data( "fineuploader").uploader;
+                    if( uploader._netUploaded >= uploader._options.validation.itemLimit) {
+                      $(".qq-upload-button", _this).hide();
+                    }
+                    if( !response.success && response.error){
+                      var item = uploader.getItemByFileId(id);
+                      qq(uploader._find(item, "statusText")).setText( "<span class=\"qq-upload-retry\">" + response.error + "</span>");
+                    }
                 }
             },
             validation: {
@@ -421,7 +428,8 @@ class UploadHelper extends AppHelper
                 "<span class=\"qq-upload-status-text\">{statusText}</span>" +
                 "</li>"
         });
-
+        
+        // $(_this).data( "fineuploader").uploader._options.validation.itemLimit = 1;
       })
     ';
     
