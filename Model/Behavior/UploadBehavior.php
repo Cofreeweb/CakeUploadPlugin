@@ -1351,6 +1351,7 @@ class UploadBehavior extends ModelBehavior {
     $FFmpeg->redirectOutput( " > /dev/null 2<&1 &");
     $destFile = $pathInfo ['dirname'] . '/'. $pathInfo ['filename'] . '.mp4';
     $FFmpeg->input( $srcFile);
+    $FFmpeg->set( 'strict', 'experimental');
     $FFmpeg->audioSamplingFrequency( '44100');
     $FFmpeg->forceFormat( 'mp4');
     $FFmpeg->videoCodec( 'libx264');
