@@ -317,7 +317,16 @@ class UploadHelper extends AppHelper
   {
     $config = Configure::read( 'Upload.'. $options ['key']);
     $this->addToUploadScript++;
-    return $this->_View->element( 'uploads/json/'. $config ['template'], array(
+    if( isset( $this->request->params ['admin']))
+    {
+      $template = 'Upload.json/photo';
+    }
+    else
+    {
+      $template = 'uploads/json/'. $config ['template'];
+    }
+    
+    return $this->_View->element( $template, array(
         'upload' => $data,
         'alias' => $options ['alias']
     ));
@@ -414,6 +423,9 @@ class UploadHelper extends AppHelper
             },
             deleteFile: {
                 enabled: true
+            },
+            camera: {
+              ios: true
             },
             fileTemplate: "<li>" +
                 "<div class=\"qq-progress-bar\"></div>" +
