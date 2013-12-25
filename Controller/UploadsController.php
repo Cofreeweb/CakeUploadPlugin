@@ -156,10 +156,22 @@ class UploadsController extends UploadAppController
       $last = $this->Upload->read( null);
       App::uses('JsonView', 'View');
       $View = new JsonView($this);
-      $body = $View->element( 'uploads/json/'. $config ['template'], array(
-          'upload' => $last ['Upload'],
-          'alias' => $this->request->query ['alias']
-      ));
+            
+      if( isset( $this->request->params ['admin']))
+      {
+        $body = $View->element( 'json/'. $config ['type'], array(
+            'upload' => $last ['Upload'],
+            'alias' => $this->request->query ['alias']
+        ));
+      }
+      else
+      {
+        $body = $View->element( 'uploads/json/'. $config ['template'], array(
+            'upload' => $last ['Upload'],
+            'alias' => $this->request->query ['alias']
+        ));
+      }
+      
       
       if( isset( $config ['thumbnailSizes']))
       {
@@ -186,6 +198,11 @@ class UploadsController extends UploadAppController
       $this->set( 'success', false);
       $this->set( '_serialize', array( 'success', 'error'));
     }    
+  }
+  
+  public function admin_multiple()
+  {
+    $this->multiple();
   }
 }
 ?>

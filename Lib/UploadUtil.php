@@ -16,6 +16,26 @@ class UploadUtil
     return $types [$data ['mimetype']];
   }
   
+  public function file( $data, $attributes = array())
+  {
+    if( !isset( $data ['id']))
+    {
+      $data = current( $data);
+    }
+    
+    if( isset( $attributes ['class']))
+    {
+      $attributes ['class'] .= ' '. self::fileExt( $data ['filename']);
+    }
+    else
+    {
+      $attributes ['class'] = self::fileExt( $data ['filename']);
+    }
+    
+    $filepath = self::filePath( $data);
+    return $this->Html->link( $data ['filename'], $filepath, $attributes);
+  }
+  
 /**
  * Retorna la extensión de un fichero
  *

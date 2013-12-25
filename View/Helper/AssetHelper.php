@@ -13,6 +13,10 @@ class AssetHelper extends AppHelper
  */
   private $__hasVideoScript = false;
   
+  public function file( $data, $attributes = array())
+  {
+    return UploadUtil::file( $data, $attributes);
+  }
   
   public function image( $data, $options = array(), $attributes = array())
   {

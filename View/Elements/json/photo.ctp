@@ -2,7 +2,7 @@
 <li id="<?= $id ?>">
   <a class="cboxElement" href="#"><img src="<?= UploadUtil::imagePath( $upload, array(
       'size' => 'thm'
-  )) ?>" />
+  )) ?>" /></a>
   <?= $this->Form->hidden( $alias .'.'. $id .'.id', array(
       'value' => $upload ['id']
   )) ?>
