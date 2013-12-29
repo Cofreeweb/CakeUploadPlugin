@@ -317,7 +317,7 @@ class UploadHelper extends AppHelper
   {
     $config = Configure::read( 'Upload.'. $options ['key']);
     $this->addToUploadScript++;
-    if( isset( $this->request->params ['admin']))
+    if( isset( $this->request->params ['admin']) || $this->request->controller == 'crud')
     {
       $template = 'Upload.json/'. $config ['type'];
     }
@@ -365,6 +365,7 @@ class UploadHelper extends AppHelper
     if( empty( $options ['url']))
     {
       $options ['url'] = $this->Html->url( array(
+          'admin' => isset( $this->request->params ['admin']) || $this->request->controller == 'crud',
           'manager' => false,
           'plugin' => 'upload',
           'controller' => 'uploads',
