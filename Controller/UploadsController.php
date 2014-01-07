@@ -204,5 +204,19 @@ class UploadsController extends UploadAppController
   {
     $this->multiple();
   }
+  
+  public function setorder()
+  {
+    $this->autoRender = false;
+    $this->loadModel( 'Upload.Upload');
+    $els = $this->request->query ['upload'];
+    
+    foreach( $els as $order => $id)
+    {
+      $this->Upload->create();
+      $this->Upload->id = $id;
+      $this->Upload->saveField( 'order', $order + 1);
+    }
+  }
 }
 ?>

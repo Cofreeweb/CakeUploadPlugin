@@ -440,7 +440,19 @@ class UploadHelper extends AppHelper
                 "<span class=\"qq-upload-status-text\">{statusText}</span>" +
                 "</li>"
         });
-        
+        _this.find( "ul").sortable({
+          update: function( event, ui) {
+            var els = ui.item.parent().sortable( "serialize");
+            $.ajax({
+              url: "'. $this->Html->url( array(
+                  'plugin' => 'upload',
+                  'controller' => 'uploads',
+                  'action' => 'setorder'
+              )) .'",
+              data: els
+            })
+          }
+        });
         // $(_this).data( "fineuploader").uploader._options.validation.itemLimit = 1;
       })
     ';

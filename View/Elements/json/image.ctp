@@ -1,5 +1,5 @@
-<? $id = 'upload_'. intval(mt_rand()) ?>
-<li id="<?= $id ?>">
+<? $id = 'upload_'. $upload ['id'] ?>
+<li id="upload_<?= $upload ['id'] ?>">
   <a class="cboxElement" href="#"><img src="<?= UploadUtil::imagePath( $upload, array(
       'size' => 'thm'
   )) ?>" /></a>

@@ -59,8 +59,8 @@ class UploadableBehavior extends ModelBehavior
 	  
 	  
 	  $deleteds = array_diff( $olds, $saves);
-	  
-	  if( !empty( $model->data [$alias]))
+
+	  if( !empty( $deleteds))
 	  {
 	    foreach( $deleteds as $id)
   	  {
