@@ -466,7 +466,12 @@ class UploadHelper extends AppHelper
       $this->addUploadToFineupload( $options);
     }
     
-    $out [] = '<h4 class="row header smaller lighter green"><i class="icon-camera"></i> '. $options ['label'] .'</h4>';
+    if( !empty( $options ['label']))
+    {
+      $out [] = '<h4 class="row header smaller lighter green"><i class="icon-camera"></i> '. $options ['label'] .'</h4>';
+      
+    }
+    
     $out [] = $this->Html->tag( 'div', '', array(
         'class' => 'fineupload-container ' . $options ['class'],
         'id' => $options ['element']
