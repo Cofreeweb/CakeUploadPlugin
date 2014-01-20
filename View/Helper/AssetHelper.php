@@ -18,6 +18,11 @@ class AssetHelper extends AppHelper
     return UploadUtil::file( $data, $attributes);
   }
   
+  public function filePath( $data, $options = array())
+  {
+    return UploadUtil::filePath( $data, $options);
+  }
+  
   public function image( $data, $options = array(), $attributes = array())
   {
     $path = UploadUtil::imagePath( $data, $options);
