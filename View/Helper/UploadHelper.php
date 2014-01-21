@@ -344,7 +344,8 @@ class UploadHelper extends AppHelper
         'class' => '',
         'buttonLabel' => __( 'Subir archivo'),
         'limit' => 0,
-        'collection' => true
+        'collection' => true,
+        'sortable' => false
     );
     
     $options = array_merge( $_options, $options);
@@ -439,23 +440,26 @@ class UploadHelper extends AppHelper
                 "<a class=\"qq-upload-delete\" href=\"#\">{deleteButtonText}</a>" +
                 "<span class=\"qq-upload-status-text\">{statusText}</span>" +
                 "</li>"
-        });
-        _this.find( "ul").sortable({
-          update: function( event, ui) {
-            var els = ui.item.parent().sortable( "serialize");
-            $.ajax({
-              url: "'. $this->Html->url( array(
-                  'plugin' => 'upload',
-                  'controller' => 'uploads',
-                  'action' => 'setorder'
-              )) .'",
-              data: els
-            })
-          }
-        });
-        // $(_this).data( "fineuploader").uploader._options.validation.itemLimit = 1;
-      })
-    ';
+        });';
+        
+        if( $options ['sortable'])
+        {
+          $script .= '_this.find( "ul").sortable({
+            update: function( event, ui) {
+              var els = ui.item.parent().sortable( "serialize");
+              $.ajax({
+                url: "'. $this->Html->url( array(
+                    'plugin' => 'upload',
+                    'controller' => 'uploads',
+                    'action' => 'setorder'
+                )) .'",
+                data: els
+              })
+            }
+          });';
+        }
+      
+      $script .= '})';
     
     $this->Html->scriptBlock( $script, array(
         'inline' => false
