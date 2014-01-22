@@ -143,7 +143,7 @@ class UploadUtil
     
     $filename = $data [$options ['fields']['filename']];
     
-    if( $data ['content_type'] == 'video')
+    if( isset( $data ['content_type']) && $data ['content_type'] == 'video')
     {
       $ext = pathinfo( $filename, PATHINFO_EXTENSION);
       $filename = str_replace( '.'. $ext, '.jpg', $filename);

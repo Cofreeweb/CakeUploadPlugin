@@ -6,5 +6,6 @@ $("body").delegate( ".upload-delete", 'click', function(){
   uploader._netUploadedOrQueued--;
   $(el).remove();
   $(".qq-upload-button", $(upload_container)).show();
+  return false;
 })
 
