@@ -442,29 +442,6 @@ class UploadHelper extends AppHelper
                 "</li>"
         });';
         
-<<<<<<< HEAD
-    if( isset( $this->request->params ['admin']))
-    {
-      $script .= '
-      _this.find( "ul").sortable({
-        update: function( event, ui) {
-          var els = ui.item.parent().sortable( "serialize");
-          $.ajax({
-            url: "'. $this->Html->url( array(
-                'plugin' => 'upload',
-                'controller' => 'uploads',
-                'action' => 'setorder'
-            )) .'",
-            data: els
-          })
-        }
-      });';
-    }
-    
-    $script .= '    
-      })
-    ';
-=======
         if( $options ['sortable'])
         {
           $script .= '_this.find( "ul").sortable({
@@ -483,7 +460,6 @@ class UploadHelper extends AppHelper
         }
       
       $script .= '})';
->>>>>>> ad52763292593d9593dc6fb1d652e1aad0d8503b
     
     $this->Html->scriptBlock( $script, array(
         'inline' => false
