@@ -1,6 +1,6 @@
 <? $id = 'upload_'. intval(mt_rand()) ?>
-<li id="<?= $id ?>">
-  <a class="cboxElement" href="<?= UploadUtil::filePath( $upload) ?>"><?= $upload ['filename'] ?></a>
+<li id="<?= $id ?>" class="upload-<?= $upload ['content_type'] ?>">
+  <a class="cboxElement" href="<?= UploadUtil::filePath( $upload) ?>"><i class="icon-file"></i> <?= $upload ['filename'] ?></a>
   <?= $this->Form->hidden( $alias .'.'. $id .'.id', array(
       'value' => $upload ['id']
   )) ?>
@@ -13,7 +13,7 @@
   )) ?>
   
   <div class="tools tools-bottom">
-		<a href="#"><i class="icon-link"></i></a>
+		<a href="<?= $this->Asset->filePath( $upload) ?>"><i class="icon-link"></i></a>
 		<a href="#" data-rel="#<?= $id ?>" class="upload-delete"><i class="icon-trash"></i></a>
   </div>
 </li>

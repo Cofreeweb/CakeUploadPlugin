@@ -308,16 +308,17 @@ class UploadBehavior extends ModelBehavior {
 			if ($model->hasField($options['fields']['dir'])) {
 				if ($created && $options['pathMethod'] == '_getPathFlat') {
 				} else if ($options['saveDir']) {
-					$temp[$model->alias][$options['fields']['dir']] = "\"{$tempPath}\"";
+				  $model->saveField( $options['fields']['dir'], $tempPath);
+          // $temp[$model->alias][$options['fields']['dir']] = "\'{$tempPath}\'";
 				}
 			}
 		}
        
-		if (!empty($temp[$model->alias])) {
-			$model->updateAll($temp[$model->alias], array(
-				$model->alias.'.'.$model->primaryKey => $model->id
-			));
-		}
+    // if (!empty($temp[$model->alias])) {
+    //  $model->updateAll($temp[$model->alias], array(
+    //    $model->alias.'.'.$model->primaryKey => $model->id
+    //  ));
+    // }
 		if (empty($this->__filesToRemove[$model->alias])) return true;
 		foreach ($this->__filesToRemove[$model->alias] as $file) {
 			$result[] = $this->unlink($file);

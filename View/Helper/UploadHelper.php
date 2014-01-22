@@ -344,7 +344,8 @@ class UploadHelper extends AppHelper
         'class' => '',
         'buttonLabel' => __( 'Subir archivo'),
         'limit' => 0,
-        'collection' => true
+        'collection' => true,
+        'sortable' => false
     );
     
     $options = array_merge( $_options, $options);
@@ -441,6 +442,7 @@ class UploadHelper extends AppHelper
                 "</li>"
         });';
         
+<<<<<<< HEAD
     if( isset( $this->request->params ['admin']))
     {
       $script .= '
@@ -462,6 +464,26 @@ class UploadHelper extends AppHelper
     $script .= '    
       })
     ';
+=======
+        if( $options ['sortable'])
+        {
+          $script .= '_this.find( "ul").sortable({
+            update: function( event, ui) {
+              var els = ui.item.parent().sortable( "serialize");
+              $.ajax({
+                url: "'. $this->Html->url( array(
+                    'plugin' => 'upload',
+                    'controller' => 'uploads',
+                    'action' => 'setorder'
+                )) .'",
+                data: els
+              })
+            }
+          });';
+        }
+      
+      $script .= '})';
+>>>>>>> ad52763292593d9593dc6fb1d652e1aad0d8503b
     
     $this->Html->scriptBlock( $script, array(
         'inline' => false
@@ -472,7 +494,12 @@ class UploadHelper extends AppHelper
       $this->addUploadToFineupload( $options);
     }
     
-    $out [] = '<h4 class="row header smaller lighter green"><i class="icon-camera"></i> '. $options ['label'] .'</h4>';
+    if( !empty( $options ['label']))
+    {
+      $out [] = '<h4 class="row header smaller lighter green"><i class="icon-camera"></i> '. $options ['label'] .'</h4>';
+      
+    }
+    
     $out [] = $this->Html->tag( 'div', '', array(
         'class' => 'fineupload-container ' . $options ['class'],
         'id' => $options ['element']
