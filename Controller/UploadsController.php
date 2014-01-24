@@ -148,7 +148,7 @@ class UploadsController extends UploadAppController
     $data = $this->request->params ['form'];
     $data ['content_type'] = $this->request->query ['key'];
     $data ['model'] = $this->request->query ['model'];
-    $data ['filesize'] = $this->request->data ['qqtotalfilesize'];
+    // $data ['filesize'] = $data ['filename']['size'];
 
     if( $this->Upload->save( $data))
     {
