@@ -313,6 +313,44 @@ class UploadHelper extends AppHelper
     return null;
   }
   
+  public function getCount( $options)
+  {
+    $model = $this->_getModel( $options ['model']);
+    $associateds = $model->getAssociated();
+    $association = $associateds [$options ['alias']];    
+    $method = 'get'. ucfirst( $association) .'Count';
+    return $this->$method( $options);
+  }
+  
+  public function getHasOneCount( $options)
+  {
+    if( !isset( $this->request->data [$options ['alias']]))
+    {
+      return 0;
+    }
+    
+    $data = $this->request->data [$options ['alias']];
+    
+    if( !empty( $data ['id']))
+    {
+      return 1;
+    }
+    
+    return 0;
+  }
+  
+  private function getHasManyCount( $options)
+  {
+    if( !isset( $this->request->data [$options ['alias']]))
+    {
+      return 0;
+    }
+    
+    $data = $this->request->data [$options ['alias']];
+    
+    return count( $data);
+  }
+  
   public function elementUpload( $options, $data)
   {
     $config = Configure::read( 'Upload.'. $options ['key']);
@@ -458,6 +496,13 @@ class UploadHelper extends AppHelper
             }
           });';
         }
+      
+      $count = $this->getCount( $options);
+      
+      if( $count >= $options ['limit'])
+      {
+        $script .= '$(".qq-upload-button", _this).hide()';
+      }
       
       $script .= '})';
     
