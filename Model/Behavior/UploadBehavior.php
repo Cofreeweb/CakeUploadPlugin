@@ -280,8 +280,10 @@ class UploadBehavior extends ModelBehavior {
 	}
 
 	public function afterSave(Model $model, $created) {
+	  
 		$temp = array($model->alias => array());
 		foreach ($this->settings[$model->alias] as $field => $options) {
+	  
 			if (!in_array($field, array_keys($model->data[$model->alias]))) continue;
 			if (empty($this->runtime[$model->alias][$field])) continue;
 		        if (isset($this->_removingOnly[$field])) continue;
@@ -296,7 +298,7 @@ class UploadBehavior extends ModelBehavior {
 				$thumbnailPath .= $tempPath . DS;
 			}
 			$tmp = $this->runtime[$model->alias][$field]['tmp_name'];
-			$filePath = $path . $model->data[$model->alias][$field];			
+			$filePath = $path . $model->data[$model->alias][$field];
 			
 			if (!$this->handleUploadedFile($model->alias, $field, $tmp, $filePath)) {
 				$model->invalidate($field, 'Unable to move the uploaded file to '.$filePath);
@@ -305,6 +307,14 @@ class UploadBehavior extends ModelBehavior {
 			}
 
 			$this->_createThumbnails($model, $field, $path, $thumbnailPath);
+			
+			$errors = $model->invalidFields();
+			
+			if( !empty( $errors))
+			{
+			  throw new UploadException( $errors [$field][0]);
+			}
+			
 			if ($model->hasField($options['fields']['dir'])) {
 				if ($created && $options['pathMethod'] == '_getPathFlat') {
 				} else if ($options['saveDir']) {
@@ -1279,7 +1289,7 @@ class UploadBehavior extends ModelBehavior {
 				
 				$this->_mkPath($thumbnailPathSized);
 				if (!$this->$method($model, $field, $path, $size, $geometry, $thumbnailPathSized)) {
-					$model->invalidate($field, 'resizeFail');
+					$model->invalidate($field, __( "No ha podido procesarse el archivo"));
 				}
 			}
 		}

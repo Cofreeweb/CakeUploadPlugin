@@ -88,10 +88,10 @@
     font-size: 12px;
     font-weight: normal;
 }
+.qq-upload-fail .qq-upload-status-text,
 .qq-upload-failed-text {
-    display: none;
-    font-style: italic;
     font-weight: bold;
+    color: #990000;
 }
 .qq-upload-failed-icon {
     display:none;

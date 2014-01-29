@@ -12,6 +12,5 @@ class Upload extends UploadAppModel
  * @var string
  */
 	public $displayField = 'title';
-  
-  
+    
 }

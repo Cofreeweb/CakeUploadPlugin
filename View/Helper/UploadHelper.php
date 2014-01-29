@@ -425,10 +425,11 @@ class UploadHelper extends AppHelper
            debug: false,
             request: {
                 endpoint: "'. $options ['url'] .'",
-                inputName: "'. $options ['inputName'] .'"
+                inputName: "'. $options ['inputName'] .'"                
             },
             text: {
-                uploadButton: "<div><i class=\"upload-icon icon-cloud-upload white icon\"></i> '. $options ['buttonLabel'] .'</div>"
+                uploadButton: "<div><i class=\"upload-icon icon-cloud-upload white icon\"></i> '. $options ['buttonLabel'] .'</div>",
+                failUpload: "'. __d( "upload", "No ha podido procesarse el archivo")  .'"
             },
             callbacks: {
                 onComplete: function( id, name, response, xhr){
@@ -440,7 +441,8 @@ class UploadHelper extends AppHelper
                     }
                     if( !response.success && response.error){
                       var item = uploader.getItemByFileId(id);
-                      qq(uploader._find(item, "statusText")).setText( "<span class=\"qq-upload-retry\">" + response.error + "</span>");
+                      qq(uploader._find(item, "statusText")).setText( response.error);
+                      qq(uploader._find(item, "statusText")).addClass( "qq-upload-failed-text");
                     }
                 }
             },
