@@ -14,6 +14,6 @@
   
   <div class="tools tools-bottom">
 		<a href="<?= $this->Asset->filePath( $upload) ?>"><i class="icon-link"></i></a>
-		<a href="#" data-rel="#<?= $id ?>" class="upload-delete"><i class="icon-trash"></i></a>
+		<a href="#" data-rel="#<?= $id ?>" data-content-id="<?= $upload ['id'] ?>" data-alert="<?= __d( "admin", "¿Estás seguro?") ?>" class="upload-delete"><i class="icon-trash"></i></a>
   </div>
 </li>

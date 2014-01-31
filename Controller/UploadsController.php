@@ -68,60 +68,25 @@ class UploadsController extends UploadAppController
   
   public function delete()
   {
-    $model = $this->request->params ['model'];
-    $id = $this->request->params ['id'];
-    $field = $this->request->params ['field'];
+    $upload = $this->Upload->find( 'first', array(
+        'conditions' => array(
+            'Upload.model' => $this->request->params ['model'],
+            'Upload.filename' => $this->request->params ['filename'],
+            'Upload.id' => $this->request->params ['id']
+        )
+    ));
     
-    if( strpos( $model, '.') !== false) 
+    if( $upload)
     {
-      list( $plugin, $model) = explode( '.', $model);
-      ClassRegistry::removeObject( $model);
-      App::import( 'Model', $plugin .'.'. $model);
-    }
-    
-    $this->loadModel( $model);
-    $this->$model->id = $id;
-    $dir = $this->$model->actsAs ['Upload.Upload'][$field]['fields']['dir'];
-
-    if( isset( $this->$model->actsAs ['Upload.Upload'][$field]['beforeDelete']))
-    {
-      $method = $this->$model->actsAs ['Upload.Upload'][$field]['beforeDelete'];
-      $this->$model->$method( $id);
+      $this->Upload->delete( $this->request->params ['id']);
       $this->set( 'success', true);
     }
     else
     {
-      if( $this->$model->save( array( $field => null), false))
-      {
-        $this->set( 'success', true);
-      }
-      else
-      {
-        $this->set( 'success', false);
-      }
+      $this->set( 'success', false);
     }
     
-    $content = $this->$model->read( null);
-    
-    if( !empty( $content [$this->$model->alias][$field]))
-    {
-      $this->set( 'image_path', UploadUtil::imagePath( $content [$this->$model->alias], array(
-          'size' => 'thm',
-          'fields' => array(
-              'dir' => $dir,
-              'filename' => $field
-          )
-      )));
-    }
-    else
-    {
-      $this->set( 'image_path', '');
-    }
-    
-    
-    $this->set( 'update', $this->request->data ['update']);
-    
-    $this->set( '_serialize', array( 'success', 'image_path', 'update'));
+    $this->set( '_serialize', array( 'success'));
   }
   
   
@@ -148,6 +113,11 @@ class UploadsController extends UploadAppController
     $data = $this->request->params ['form'];
     $data ['content_type'] = $this->request->query ['key'];
     $data ['model'] = $this->request->query ['model'];
+    
+    if( isset( $this->request->query ['content_id']))
+    {
+      $data ['content_id'] = $this->request->query ['content_id'];
+    }
     // $data ['filesize'] = $data ['filename']['size'];
 
     if( $this->Upload->save( $data))

@@ -5,6 +5,8 @@
  * @package plugin.upload.view.helper
  */
 
+App::uses('UploadUtil', 'Upload.Lib/');
+
 class UploadHelper extends AppHelper 
 {
   public $helpers = array( 'Html', 'Form', 'Js');
@@ -383,7 +385,8 @@ class UploadHelper extends AppHelper
         'buttonLabel' => __( 'Subir archivo'),
         'limit' => 0,
         'collection' => true,
-        'sortable' => false
+        'sortable' => false,
+        'content_id' => null
     );
     
     $options = array_merge( $_options, $options);
@@ -410,7 +413,7 @@ class UploadHelper extends AppHelper
           'controller' => 'uploads',
           'action' => 'multiple',
           'ext' => 'json'
-      )) . '?key=' . $options ['key'] . '&model=' . $options ['model'] . '&alias=' . $options ['alias'];
+      )) . '?key=' . $options ['key'] . '&model=' . $options ['model'] . '&alias=' . $options ['alias'] . '&content_id='. $options ['content_id'];
     }
     
     if( empty( $options ['element']))

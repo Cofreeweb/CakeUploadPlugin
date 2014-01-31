@@ -10,7 +10,7 @@ Router::connect( '/upload/uploads/add/:model/:field/*', array(
   'action' => 'add'
 ));
 
-Router::connect( '/upload/uploads/delete/:model/:field/:id', array(
+Router::connect( '/upload/uploads/delete/:model/:filename/:id', array(
   'plugin' => 'upload',
   'controller' => 'uploads', 
   'action' => 'delete'
