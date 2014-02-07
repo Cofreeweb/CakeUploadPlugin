@@ -6,6 +6,15 @@
   <?= $this->Form->hidden( $alias .'.'. $id .'.id', array(
       'value' => $upload ['id']
   )) ?>
+  
+  <?= $this->Form->hidden( $alias .'.'. $id .'.filename', array(
+      'value' => $upload ['filename']
+  )) ?>
+  
+  <?= $this->Form->hidden( $alias .'.'. $id .'.path', array(
+      'value' => $upload ['path']
+  )) ?>
+  
   <?= $this->Form->hidden( $alias .'.'. $id .'.model', array(
       'value' => $upload ['model']
   )) ?>
