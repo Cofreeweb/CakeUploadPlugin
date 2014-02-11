@@ -1322,10 +1322,16 @@ class UploadBehavior extends ModelBehavior {
 		return mime_content_type($filePath);
 	}
 	
-	public function _createVideo(&$model, $field, $path, $thumbnailPath)
+	public function _createVideo( Model $model, $field, $path, $thumbnailPath)
 	{
-	  $srcFile  = $path . $model->data[$model->alias][$field];
+	  $srcFile  = $path . $model->data[$model->alias][$field];	  
     $pathInfo = $this->_pathinfo($srcFile);
+    
+    // Renombra el fichero
+    $srcFile2 = str_replace( $pathInfo ['filename'], $pathInfo ['filename'] . '_org', $srcFile);
+    rename( $srcFile, $srcFile2);
+    $srcFile = $srcFile2;
+    
     $this->_mkPath($thumbnailPath);
 	  App::import( 'Vendor', 'Upload.FFmpeg', array('file' => 'FFmpeg/src/ffmpeg.class.php'));
     
@@ -1401,6 +1407,8 @@ class UploadBehavior extends ModelBehavior {
     $FFmpeg->audioBitrate( '160000');
     $FFmpeg->output( $destFile)->ready();
     CakeLog::write( 'debug', $FFmpeg->command);
+    
+    unlink( $srcFile);
 	}
 
 	public function _prepareFilesForDeletion(&$model, $field, $data, $options) {
