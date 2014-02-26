@@ -93,6 +93,24 @@ class UploadUtil
     return Configure::read( 'Upload.'. $type);
   }
   
+  public function paths( $data, $options = array())
+  {
+    $config = self::getConfig( $data);
+    $method = $config ['type'] . 'Path';
+    return self::$method( $data);
+  }
+  
+  public function docPath( $data, $options = array())
+  {
+    $return = self::filePath( $data, $options);
+    return array( $return);
+  }
+  
+  public function videoPath( $data, $options = array())
+  {
+    return self::imagePath( $data, $options);
+  }
+  
   public function filePath( $data, $options = array())
   {
     if( !isset( $data ['id']))
@@ -111,11 +129,32 @@ class UploadUtil
     $options = array_merge( $_options, $options);
     
     $path = Configure::read( 'Path.files.photos') . $data [$options ['fields']['dir']] .'/'. $data [$options ['fields']['filename']];
-    
+
     return $path;
   }
   
-  function imagePath( $data, $options = array())
+  public function imagePaths( $data)
+  {
+    if( !isset( $data ['id']))
+    {
+      $data = current( $data);
+    }
+    
+    $config = self::getConfig( $data);
+    
+    $return = array();
+    
+    foreach( $config ['config']['thumbnailSizes'] as $size => $info)
+    {
+      $return [] = self::imagePath( $data, array(
+          'size' => $size
+      ));
+    }
+    
+    return $return;
+  }
+  
+  public function imagePath( $data, $options = array())
   {
     if( !isset( $data ['id']))
     {
