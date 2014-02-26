@@ -16,6 +16,6 @@
   
   <div class="tools tools-bottom">
 		<a href="#"><i class="icon-link"></i></a>
-		<a href="#" data-rel="#<?= $id ?>" class="upload-delete"><i class="icon-trash"></i>Borrar</a>
+		<a href="#" data-rel="#<?= $id ?>" data-alert="<?= __d( "admin", "¿Estás seguro?") ?>" class="upload-delete"><i class="icon-trash"></i>Borrar</a>
   </div>
 </li>

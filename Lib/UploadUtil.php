@@ -162,7 +162,6 @@ class UploadUtil
     }
     
     $_options = array(
-        'size' => 'thm',
         'fields' => array(
             'dir' => 'path',
             'filename' => 'filename'
