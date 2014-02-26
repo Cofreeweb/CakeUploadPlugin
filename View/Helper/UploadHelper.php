@@ -449,6 +449,9 @@ class UploadHelper extends AppHelper
                     }
                 }
             },
+            onError: function (event, id, name, errorReason, xhrOrXdr){
+              console.log( errorReason);
+            },
             validation: {
               itemLimit: "'. $options ['limit'] .'"
             },

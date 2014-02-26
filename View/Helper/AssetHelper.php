@@ -30,6 +30,11 @@ class AssetHelper extends AppHelper
     return $this->Html->tag( 'img', null, $attributes);
   }
   
+  public function imagePath( $data, $options = array())
+  {
+    return UploadUtil::imagePath( $data, $options);
+  }
+  
   function imageSrc( $data, $options = array())
   {
     $_options = array(
