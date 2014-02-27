@@ -353,7 +353,7 @@ class UploadBehavior extends ModelBehavior {
 	    
 	    if( $config && isset( $config ['type']) && $config ['type'] == 'video')
 	    {
-	      CakeLog::write( 'debug', print_r( $model->data[$model->alias], true));
+	      CakeLog::write( 'debug', print_r( $model->data, true));
         CakeLog::write( 'debug', $model->data[$model->alias][$field]['type']);
         
 	      if( !in_array( $model->data[$model->alias][$field]['type'], $this->_videoMimetypes))
