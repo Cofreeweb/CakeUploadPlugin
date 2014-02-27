@@ -353,12 +353,11 @@ class UploadBehavior extends ModelBehavior {
 	    
 	    if( $config && isset( $config ['type']) && $config ['type'] == 'video')
 	    {
-	      CakeLog::write( 'debug', print_r( $model->data, true));
-        CakeLog::write( 'debug', $model->data[$model->alias][$field]['type']);
+	      CakeLog::write( 'upload', print_r( $model->data, true));
+        CakeLog::write( 'upload', $model->data[$model->alias][$field]['type']);
         
-	      if( !in_array( $model->data[$model->alias][$field]['type'], $this->_videoMimetypes))
+	      if( !in_array( $model->data[$model->alias][$field]['type'], $this->_videoMimetypes))ss
 	      {
-	        
 	        $model->invalidate( $field, __d( "upload", "El tipo de archivo no es de video"));
 	        return false;
 	      }
@@ -1364,7 +1363,7 @@ class UploadBehavior extends ModelBehavior {
     $FFmpeg->audioChannels( 2);
     $FFmpeg->audioBitrate( '256k');
     $FFmpeg->output( $destFile)->ready();
-    CakeLog::write( 'debug', $FFmpeg->command);
+    CakeLog::write( 'upload', $FFmpeg->command);
     
     // mp4
     // -i %1 -b 1500k -vcodec libx264 -vpre slow -vpre baseline -g 30 -s 640x360 %1.mp4
@@ -1380,7 +1379,7 @@ class UploadBehavior extends ModelBehavior {
     $FFmpeg->bitrate( '1500k');
     $FFmpeg->audioBitrate( '256k');
     $FFmpeg->output( $destFile)->ready();
-    CakeLog::write( 'debug', $FFmpeg->command);
+    CakeLog::write( 'upload', $FFmpeg->command);
     
     // webm
     // -i %1 -b 1500k -vcodec libvpx  -acodec libvorbis -ab 160000 -f webm    -g 30 -s 640x360 %1.webm
@@ -1395,7 +1394,7 @@ class UploadBehavior extends ModelBehavior {
     $FFmpeg->videoCodec( 'libvpx');
     $FFmpeg->audioBitrate( '160000');
     $FFmpeg->output( $destFile)->ready();
-    CakeLog::write( 'debug', $FFmpeg->command);
+    CakeLog::write( 'upload', $FFmpeg->command);
     
     // ogv
     // -i %1 -b 1500k -vcodec libtheora  -acodec libvorbis -ab 160000   -g 30 -s 640x360 %1.ogv
@@ -1410,7 +1409,7 @@ class UploadBehavior extends ModelBehavior {
     $FFmpeg->videoCodec( 'libtheora');
     $FFmpeg->audioBitrate( '160000');
     $FFmpeg->output( $destFile)->ready();
-    CakeLog::write( 'debug', $FFmpeg->command);
+    CakeLog::write( 'upload', $FFmpeg->command);
     
     unlink( $srcFile);
 	}
