@@ -1411,7 +1411,7 @@ class UploadBehavior extends ModelBehavior {
     $FFmpeg->output( $destFile)->ready();
     CakeLog::write( 'upload', $FFmpeg->command);
     
-    unlink( $srcFile);
+    // unlink( $srcFile);
 	}
 
 	public function _prepareFilesForDeletion(&$model, $field, $data, $options) {
