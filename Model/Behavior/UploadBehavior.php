@@ -353,13 +353,15 @@ class UploadBehavior extends ModelBehavior {
 	    
 	    if( $config && isset( $config ['type']) && $config ['type'] == 'video')
 	    {
-        // if( !in_array( $model->data[$model->alias][$field]['type'], $this->_videoMimetypes))
-        // {
-        //   CakeLog::write( 'debug', print_r( $model->data[$model->alias], true));
-        //   CakeLog::write( 'debug', $model->data[$model->alias][$field]['type']);
-        //   $model->invalidate( $field, __d( "upload", "El tipo de archivo no es de video"));
-        //   return false;
-        // }
+	      CakeLog::write( 'debug', print_r( $model->data[$model->alias], true));
+        CakeLog::write( 'debug', $model->data[$model->alias][$field]['type']);
+        
+	      if( !in_array( $model->data[$model->alias][$field]['type'], $this->_videoMimetypes))
+	      {
+	        
+	        $model->invalidate( $field, __d( "upload", "El tipo de archivo no es de video"));
+	        return false;
+	      }
 	    }
 	  }
 	  
