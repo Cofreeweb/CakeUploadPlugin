@@ -356,7 +356,7 @@ class UploadBehavior extends ModelBehavior {
 	      CakeLog::write( 'upload', print_r( $model->data, true));
         CakeLog::write( 'upload', $model->data[$model->alias][$field]['type']);
         
-	      if( !in_array( $model->data[$model->alias][$field]['type'], $this->_videoMimetypes))ss
+	      if( !in_array( $model->data[$model->alias][$field]['type'], $this->_videoMimetypes))
 	      {
 	        $model->invalidate( $field, __d( "upload", "El tipo de archivo no es de video"));
 	        return false;
