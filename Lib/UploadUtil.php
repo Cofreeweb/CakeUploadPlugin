@@ -97,7 +97,7 @@ class UploadUtil
   {
     $config = self::getConfig( $data);
     $method = $config ['type'] . 'Path';
-    return self::$method( $data);
+    return (array)self::$method( $data);
   }
   
   public function docPath( $data, $options = array())
