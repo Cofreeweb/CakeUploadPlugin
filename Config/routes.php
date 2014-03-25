@@ -1,5 +1,6 @@
 <?php
-Router::parseExtensions( 'json');
+Router::parseExtensions();
+Router::setExtensions( array( 'json'));
 
 $plugins = CakePlugin::loaded();
 
