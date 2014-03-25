@@ -127,7 +127,7 @@ class AssetHelper extends AppHelper
   {
     $filepath = UploadUtil::filePath( $data);
     $return = '<div class="player" data-engine="flash">
-            <video poster="'. UploadUtil::imagePath( $data, array( 'size' => $thm_size)) .'" controls>
+            <video poster="'. UploadUtil::imagePath( $data, array( 'size' => $thm_size)) .'" width="100%" preload="none" controls>
             <source src="'. UploadUtil::changeExt( $filepath, 'webm') .'" type=\'video/webm; codecs="vp8.0, vorbis"\'/>
             <source src="'. UploadUtil::changeExt( $filepath, 'ogv') .'" type=\'video/ogg; codecs="theora, vorbis"\'/>
             <source src="'. UploadUtil::changeExt( $filepath, 'mp4') .'" type=\'video/mp4; codecs="avc1.4D401E, mp4a.40.2"\'/>
