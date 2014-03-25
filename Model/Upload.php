@@ -1,5 +1,7 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses( 'UploadUtil', 'Upload.Lib');
+
 /**
  * Upload Model
  *
