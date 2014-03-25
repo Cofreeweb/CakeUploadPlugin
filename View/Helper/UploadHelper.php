@@ -432,7 +432,7 @@ class UploadHelper extends AppHelper
             },
             text: {
                 uploadButton: "<div><i class=\"upload-icon icon-cloud-upload white icon\"></i> '. $options ['buttonLabel'] .'</div>",
-                failUpload: "'. __d( "upload", "No ha podido proceffsarse el archivo")  .'"
+                failUpload: "'. __d( "upload", "No ha podido procesarse el archivo")  .'"
             },
             callbacks: {
                 onComplete: function( id, name, response, xhr){

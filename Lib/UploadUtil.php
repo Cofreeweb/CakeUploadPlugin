@@ -96,17 +96,17 @@ class UploadUtil
   public function paths( $data, $options = array())
   {
     $config = self::getConfig( $data);
-    $method = $config ['type'] . 'Path';
+    $method = $config ['type'] . 'Paths';
     return self::$method( $data);
   }
   
-  public function docPath( $data, $options = array())
+  public function docPaths( $data, $options = array())
   {
     $return = self::filePath( $data, $options);
     return array( $return);
   }
   
-  public function videoPath( $data, $options = array())
+  public function videoPaths( $data, $options = array())
   {
     return self::imagePath( $data, $options);
   }
@@ -141,12 +141,10 @@ class UploadUtil
     }
     
     $config = self::getConfig( $data);
-    
-    $return = array();
-    
+
     foreach( $config ['config']['thumbnailSizes'] as $size => $info)
     {
-      $return [] = self::imagePath( $data, array(
+      $return [$size] = self::imagePath( $data, array(
           'size' => $size
       ));
     }
