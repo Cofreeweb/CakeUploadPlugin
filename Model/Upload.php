@@ -21,7 +21,6 @@ class Upload extends UploadAppModel
 	      $results [$key][$this->alias]['paths'] = $paths;
 	    }
 	  }
-	  
 	  return $results;
 	}
 	
