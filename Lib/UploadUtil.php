@@ -96,26 +96,35 @@ class UploadUtil
   public function paths( $data, $options = array())
   {
     $config = self::getConfig( $data);
+    
     if( !$config)
     {
       return false;
     }
-    $method = $config ['type'] . 'Path';
-    return (array)self::$method( $data);
+    
+    $method = $config ['type'] . 'Paths';
+    
+    
+    if( method_exists( 'UploadUtil', $method))
+    {
+      return (array)self::$method( $data);
+    }
+    
+    return array();
   }
   
-  public function docPath( $data, $options = array())
+  public function docPaths( $data, $options = array())
   {
-    $return = self::filePath( $data, $options);
+    $return = self::filePaths( $data, $options);
     return array( $return);
   }
   
-  public function videoPath( $data, $options = array())
+  public function videoPaths( $data, $options = array())
   {
     return self::imagePath( $data, $options);
   }
   
-  public function filePath( $data, $options = array())
+  public function filePaths( $data, $options = array())
   {
     if( !isset( $data ['id']))
     {
@@ -150,7 +159,7 @@ class UploadUtil
     
     foreach( $config ['config']['thumbnailSizes'] as $size => $info)
     {
-      $return [] = self::imagePath( $data, array(
+      $return [ $size] = self::imagePath( $data, array(
           'size' => $size
       ));
     }

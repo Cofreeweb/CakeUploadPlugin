@@ -13,15 +13,15 @@ class Upload extends UploadAppModel
 	
 	public function afterFind( $results)
 	{
-    // if( isset( $results [0]))
-    // {
-    //   foreach( $results as $key => $result)
-    //   {
-    //     $paths = UploadUtil::paths( $result);
-    //     $results [$key][$this->alias]['paths'] = $paths;
-    //   }
-    // }
-	  
+	  if( isset( $results [0]))
+	  {
+	    foreach( $results as $key => $result)
+	    {
+	      $paths = UploadUtil::paths( $result);
+	      $results [$key][$this->alias]['paths'] = $paths;
+	    }
+	  }
+
 	  return $results;
 	}
 	
