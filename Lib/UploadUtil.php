@@ -96,6 +96,10 @@ class UploadUtil
   public function paths( $data, $options = array())
   {
     $config = self::getConfig( $data);
+    if( !$config)
+    {
+      return false;
+    }
     $method = $config ['type'] . 'Path';
     return (array)self::$method( $data);
   }
