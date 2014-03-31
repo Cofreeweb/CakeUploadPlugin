@@ -169,6 +169,11 @@ class UploadUtil
   
   public function imagePath( $data, $options = array())
   {
+    if( !is_array( $data))
+    {
+      return '';
+    }
+    
     if( !isset( $data ['id']))
     {
       $data = current( $data);
