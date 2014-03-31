@@ -68,6 +68,8 @@ class UploadsController extends UploadAppController
   
   public function delete()
   {  
+    $model = $this->request->params ['model'];
+    
     $upload = $this->Upload->find( 'first', array(
         'conditions' => array(
             'Upload.model' => $this->request->params ['model'],

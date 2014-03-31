@@ -21,10 +21,7 @@ class Upload extends UploadAppModel
 	      $results [$key][$this->alias]['paths'] = $paths;
 	    }
 	  }
-<<<<<<< HEAD
-=======
 
->>>>>>> 2313eafb87d2f5aa03ff5aeb362ffd8b6239dd9f
 	  return $results;
 	}
 	
