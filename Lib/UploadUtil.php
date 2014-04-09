@@ -113,6 +113,8 @@ class UploadUtil
     return array();
   }
   
+  
+  
   public function docPaths( $data, $options = array())
   {
     $return = self::filePaths( $data, $options);
@@ -144,6 +146,18 @@ class UploadUtil
     $path = Configure::read( 'Path.files.photos') . $data [$options ['fields']['dir']] .'/'. $data [$options ['fields']['filename']];
 
     return $path;
+  }
+  
+/**
+ * Alias de filePaths
+ *
+ * @param array $data 
+ * @param array $options 
+ * @return void
+ */
+  public function filePath( $data, $options = array())
+  {
+    return self::filePaths( $data, $options);
   }
   
   public function imagePaths( $data)
