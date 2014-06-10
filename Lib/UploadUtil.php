@@ -88,6 +88,11 @@ class UploadUtil
       $data = current( $data);
     }
     
+    if( !isset( $data ['content_type']))
+    {
+      return false;
+    }
+    
     $type = $data ['content_type'];
     
     return Configure::read( 'Upload.'. $type);
