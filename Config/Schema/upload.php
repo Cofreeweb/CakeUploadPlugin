@@ -23,7 +23,7 @@ class UploadSchema extends CakeSchema {
 		    'default' => NULL, 
 		    'length' => 3
 		),
-		'content_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'key' => 'index'),
+		'content_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'key' => 'index'),
 		'content_type' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'key' => 'index'),
 		'model' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'key' => 'index'),
 		'filename' => array('type' => 'string', 'null' => true, 'default' => NULL),

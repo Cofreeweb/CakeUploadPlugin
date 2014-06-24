@@ -386,7 +386,9 @@ class UploadHelper extends AppHelper
         'limit' => 0,
         'collection' => true,
         'sortable' => false,
-        'content_id' => null
+        'content_id' => null,
+        'labelTag' => 'h4',
+        'labelClass' => 'header smaller lighter green'
     );
     
     $options = array_merge( $_options, $options);
@@ -525,8 +527,9 @@ class UploadHelper extends AppHelper
     
     if( !empty( $options ['label']))
     {
-      $out [] = '<h4 class="row header smaller lighter green"><i class="icon-camera"></i> '. $options ['label'] .'</h4>';
-      
+      $out [] = $this->Html->tag( $options ['labelTag'], '<i class="icon-camera"></i> '. $options ['label'], array(
+          'class' => $options ['labelClass']
+      ));      
     }
     
     $out [] = $this->Html->tag( 'div', '', array(
