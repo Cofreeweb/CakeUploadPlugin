@@ -75,6 +75,11 @@ class UploadHelper extends AppHelper
         'inline' => false
     ));
   }
+
+  public function loadScripts()
+  {
+    $this->__loadScripts();
+  }
  
 /**
  * Devuelve un id random
@@ -357,6 +362,7 @@ class UploadHelper extends AppHelper
   {
     $config = Configure::read( 'Upload.'. $options ['key']);
     $this->addToUploadScript++;
+
     if( isset( $this->request->params ['admin']) || $this->request->controller == 'crud')
     {
       $template = 'Upload.json/'. $config ['type'];
