@@ -542,6 +542,11 @@ class UploadHelper extends AppHelper
         'class' => 'fineupload-container ' . $options ['class'],
         'id' => $options ['element']
     ));
+
+    // Ponemos la clave _upload para que si se usa el Behavior Uploadable, se puedan borrar los assets borrados
+    $out [] = $this->Form->hidden( $options ['model'] .'._upload', array(
+        'value' => 1
+    ));
     
     return implode( "\n", $out);
   }

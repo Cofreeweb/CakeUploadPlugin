@@ -33,7 +33,7 @@ class Upload extends UploadAppModel
 	  
 	  foreach( $paths as $path)
 	  {
-	    unlink( substr( WWW_ROOT, 0, -1) .$path);
+	    @unlink( substr( WWW_ROOT, 0, -1) .$path);
 	  }
 	  
 	  return true;

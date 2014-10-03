@@ -57,15 +57,21 @@ class UploadableBehavior extends ModelBehavior
 	    }
 	  }
 	  
-	  
-	  $deleteds = array_diff( $olds, $saves);
+	  // Se borran los assets que se han borrado en la edición
+	  // Para que esto funcione, es necesario indicar en el formulario la clave _upload, dentro del model
+	  // Por ejemplo $this->Form->hidden( 'Model._upload', array( 'value' => 1))
 
-	  if( !empty( $deleteds))
+	  if( isset( $model->data [$model->alias]['_upload']))
 	  {
-	    foreach( $deleteds as $id)
-  	  {
-  	    $model->$alias->delete( $id);
-  	  }
+	  	$deleteds = array_diff( $olds, $saves);
+
+		  if( !empty( $deleteds))
+		  {
+		    foreach( $deleteds as $id)
+	  	  {
+	  	    $model->$alias->delete( $id);
+	  	  }
+		  }
 	  }
 	  
 	}
