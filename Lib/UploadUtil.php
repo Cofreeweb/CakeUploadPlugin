@@ -182,6 +182,10 @@ class UploadUtil
           'size' => $size
       ));
     }
+
+    $return ['org'] = self::imagePath( $data, array(
+          'size' => ''
+    ));
     
     return $return;
   }
@@ -228,6 +232,8 @@ class UploadUtil
     
     return $path;
   }
+  
+  
   
   function imagePathMulti( $data, $options = array())
   {

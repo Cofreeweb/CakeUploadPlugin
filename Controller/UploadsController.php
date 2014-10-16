@@ -10,7 +10,7 @@ class UploadsController extends UploadAppController
   
   public $uses = array();
   
-  public $components = array( 'RequestHandler');
+  public $components = array( 'RequestHandler', 'Upload.CropImage');
   
   public function beforeFilter()
   {
@@ -22,6 +22,153 @@ class UploadsController extends UploadAppController
     }
   }
   
+  public function upload()
+  {
+    // La configuración del upload
+    $config = Configure::read( 'Upload.'. $this->request->query ['key']);
+    $config ['config']['fields'] = array(
+        'dir' => 'path',
+        'type' => 'mimetype'
+    );
+    
+    // Lee el Behavior Upload.Upload para el model asociado, pasándole los datos indicados en la configuración anteriormente leída
+    $this->Upload->Behaviors->load( 'Upload.Upload', array( 
+        'filename' => $config ['config'],
+    ));
+    
+    // Los datos a guardar
+    $data = $this->request->params ['form'];
+    $data ['content_type'] = $this->request->query ['key'];
+    $data ['model'] = $this->request->query ['model'];
+    
+    if( isset( $this->request->query ['content_id']))
+    {
+      $data ['content_id'] = $this->request->query ['content_id'];
+    }
+
+    if( $this->Upload->save( $data))
+    {
+      $last = $this->Upload->read( null);
+
+      
+      $this->set( 'success', true);
+      
+      App::uses('JsonView', 'View');
+      $View = new JsonView($this);
+      
+      if( isset( $config ['thumbnailSizes']))
+      {
+        $last ['Upload']['thumbail'] = UploadUtil::thumbailPathMulti( $last);
+      }
+      
+      $this->set( 'upload', $last ['Upload']);
+      $this->set( '_serialize', array( 'success', 'upload'));
+    }
+    else
+    {
+      $errors = $this->Upload->invalidFields();
+      
+      if( isset( $errors ['filename']))
+      {
+        $this->set( 'error', current( $errors ['filename']));
+      }
+      else
+      {
+        $this->set( 'error', false);
+      }
+
+      $this->set( 'success', false);
+      $this->set( '_serialize', array( 'success', 'error'));
+    }
+  }
+
+  public function admin_crop()
+  {
+    $this->Components->load( 'Angular.Angular');
+    $content = $this->Upload->find( 'first', array(
+        'conditions' => array(
+            'Upload.id' => $this->request->data ['id']
+        )
+    ));
+
+    $config = UploadUtil::getConfig( $content);
+
+    $thumbails = array();
+
+    $size = false;
+
+    foreach( $config ['config']['thumbnailSizes'] as $_size => $thm_info)
+    {
+      if( is_array( $thm_info))
+      {
+        $thumbails [$_size] = $thm_info;
+
+        if( !$size)
+        {
+          $size = $_size;
+        }
+      }
+    }
+
+    $configs = array();
+
+    foreach( $thumbails as $_size => $info)
+    {
+      if( strpos( $info ['size'], 'x'))
+      {
+        list( $width, $height) = explode( 'x', $info ['size']);
+      }
+      else
+      {
+        $width = false;
+        $height = false;
+      }
+
+      $configs [$_size] = array(
+          'id' => $content ['Upload']['id'],
+          'path' => $content ['Upload']['path'],
+          'width' => $width,
+          'height' => $height,
+          'size' => $_size
+      );
+    }
+
+    $current = $configs [$size];
+    $_serialize = array( 'content', 'thumbails', 'current', 'configs');
+    $this->set( compact( 'content', 'thumbails', 'size', 'current', 'configs', '_serialize'));
+  }
+
+  public function admin_proccess()
+  {
+    $data = $this->request->data ['upload'];
+
+    $upload = $this->Upload->find( 'first', array(
+        'conditions' => array(
+            'Upload.id' => $data ['id']
+        )
+    ));
+    // La configuración del upload
+    $config = Configure::read( 'Upload.'. $upload ['Upload']['content_type']);
+    $config ['config']['fields'] = array(
+        'dir' => 'path',
+        'type' => 'mimetype'
+    );
+
+    $this->Upload->Behaviors->load( 'Upload.Upload', array( 
+        'filename' => $config ['config'],
+    ));
+
+    $file = $this->CropImage->crop( $upload, $data ['cropper']);
+    $config = UploadUtil::getConfig( $upload);
+
+    $this->Upload->data = $upload;
+    $geometry = $config ['config']['thumbnailSizes'][$data ['size']]['size'];
+
+    $pathinfo = pathinfo( $file);
+    $this->Upload->resizeThmPhp( $file, 'filename', $pathinfo ['dirname'] .DS, $data ['size'], $geometry, $pathinfo ['dirname'] .DS, $upload ['Upload']['filename']);
+    unlink( $file);
+  }
+
   public function add()
   {
     $model = $model_plugin = $this->request->params ['model'];

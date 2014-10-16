@@ -1,0 +1,234 @@
+Searching 121 files for "thumbnailSizes"
+
+/Users/alfonso/Sites/catering/app/Plugin/Upload/Controller/Component/UploaderComponent.php:
+   52        $last ['Upload']['id'] = $last ['Upload']['id']->__toString(); 
+   53        
+   54:       if( isset( $config ['thumbnailSizes']))
+   55        {
+   56          $last ['Upload']['thumbail'] = UploadUtil::thumbailPathMulti( $last);
+
+/Users/alfonso/Sites/catering/app/Plugin/Upload/Controller/UploadsController.php:
+   57        $View = new JsonView($this);
+   58        
+   59:       if( isset( $config ['thumbnailSizes']))
+   60        {
+   61          $last ['Upload']['thumbail'] = UploadUtil::thumbailPathMulti( $last);
+   ..
+  217        
+  218        
+  219:       if( isset( $config ['thumbnailSizes']))
+  220        {
+  221          $last ['Upload']['thumbail'] = UploadUtil::thumbailPathMulti( $last);
+
+/Users/alfonso/Sites/catering/app/Plugin/Upload/Lib/UploadUtil.php:
+  177      $return = array();
+  178      
+  179:     foreach( $config ['config']['thumbnailSizes'] as $size => $info)
+  180      {
+  181        $return [ $size] = self::imagePath( $data, array(
+
+/Users/alfonso/Sites/catering/app/Plugin/Upload/Model/Behavior/UploadBehavior.php:
+   41  		'thumbnailPrefixStyle'=> true,
+   42  		'thumbnailQuality'	=> 99,
+   43: 		'thumbnailSizes'	=> array(),
+   44  		'thumbnailType'		=> false,
+   45  		'deleteOnUpdate'	=> false,
+   ..
+  129  			// HACK: Remove me in next major version
+  130  			if (!empty($options['thumbsizes'])) {
+  131: 				$options['thumbnailSizes'] = $options['thumbsizes'];
+  132  			}
+  133  
+  ...
+ 1281  		$isVideo = $this->_isVideo($model, $this->runtime[$model->alias][$field]['type']);
+ 1282  		$createThumbnails = $this->settings[$model->alias][$field]['thumbnails'];
+ 1283: 		$hasThumbnails = !empty($this->settings[$model->alias][$field]['thumbnailSizes']);
+ 1284  
+ 1285  		if (($isImage || $isMedia) && $createThumbnails && $hasThumbnails) {
+ 1286  			$method = $this->settings[$model->alias][$field]['thumbnailMethod'];
+ 1287  
+ 1288: 			foreach ($this->settings[$model->alias][$field]['thumbnailSizes'] as $size => $geometry) {
+ 1289  				$thumbnailPathSized = $this->_pathThumbnail($model, $field, compact(
+ 1290  					'geometry', 'size', 'thumbnailPath'
+ ....
+ 1342      $FFmpeg->redirectOutput( " ");
+ 1343      
+ 1344:     foreach ($this->settings[$model->alias][$field]['thumbnailSizes'] as $size => $geometry) 
+ 1345      {
+ 1346  			$thumbnailPathSized = $this->_pathThumbnail($model, $field, compact(
+ ....
+ 1427  
+ 1428  		$createThumbnails = $options['thumbnails'];
+ 1429: 		$hasThumbnails = !empty($options['thumbnailSizes']);
+ 1430  
+ 1431  		if (!$createThumbnails || !$hasThumbnails) {
+ ....
+ 1469  		}
+ 1470  
+ 1471: 		foreach ($options['thumbnailSizes'] as $size => $geometry) {
+ 1472  			$fileName = str_replace(
+ 1473  				array('{size}', '{filename}', '{primaryKey}'),
+
+/Users/alfonso/Sites/catering/app/Plugin/Upload/README.markdown:
+   35      				'pathMethod' => 'random',
+   36      				'thumbnailQuality' => 100,
+   37:     				'thumbnailSizes' => array(
+   38      				    'min' => '50w',
+   39                  		'thm' => '100w',
+   ..
+  117  * `thumbnailQuality`: Quality of thumbnails that will be generated, on a scale of 0-100
+  118    * Default: (int) `75`
+  119: * `thumbnailSizes`: Array of thumbnail sizes, with the size-name mapping to a geometry
+  120    * Default: (array) empty
+  121  * `thumbnailType`: Override the type of the generated thumbnail
+  ...
+  141  			'Upload.Upload' => array(
+  142  				'photo' => array(
+  143: 					'thumbnailSizes' => array(
+  144  						'big' => '200x200',
+  145  						'small' => '120x120'
+
+/Users/alfonso/Sites/catering/app/Plugin/Upload/Test/Case/Model/Behavior/UploadTest.php:
+  769  		$this->TestUpload->actsAs['Upload.Upload'] = array(
+  770  			'photo' => array(
+  771: 				'thumbnailSizes' => array(
+  772  					'xvga' => '1024x768',
+  773  					'vga' => '640x480',
+  ...
+  796  		$this->TestUpload->actsAs['Upload.Upload'] = array(
+  797  			'photo' => array(
+  798: 				'thumbnailSizes' => array(
+  799  					'xvga' => '1024x768',
+  800  					'vga' => '640x480',
+  ...
+  824  		$this->TestUpload->actsAs['Upload.Upload'] = array(
+  825  			'photo' => array(
+  826: 				'thumbnailSizes' => array(
+  827  					'xvga' => '1024x768',
+  828  					'vga' => '640x480',
+  ...
+  852  		$this->TestUpload->actsAs['Upload.Upload'] = array(
+  853  			'photo' => array(
+  854: 				'thumbnailSizes' => array(
+  855  					'xvga' => '1024x768',
+  856  					'vga' => '640x480',
+
+18 matches across 6 files
+
+
+Searching 121 files for "thumbnailSizes"
+
+/Users/alfonso/Sites/catering/app/Plugin/Upload/Controller/Component/UploaderComponent.php:
+   52        $last ['Upload']['id'] = $last ['Upload']['id']->__toString(); 
+   53        
+   54:       if( isset( $config ['thumbnailSizes']))
+   55        {
+   56          $last ['Upload']['thumbail'] = UploadUtil::thumbailPathMulti( $last);
+
+/Users/alfonso/Sites/catering/app/Plugin/Upload/Controller/UploadsController.php:
+   57        $View = new JsonView($this);
+   58        
+   59:       if( isset( $config ['thumbnailSizes']))
+   60        {
+   61          $last ['Upload']['thumbail'] = UploadUtil::thumbailPathMulti( $last);
+   ..
+  217        
+  218        
+  219:       if( isset( $config ['thumbnailSizes']))
+  220        {
+  221          $last ['Upload']['thumbail'] = UploadUtil::thumbailPathMulti( $last);
+
+/Users/alfonso/Sites/catering/app/Plugin/Upload/Lib/UploadUtil.php:
+  177      $return = array();
+  178      
+  179:     foreach( $config ['config']['thumbnailSizes'] as $size => $info)
+  180      {
+  181        $return [ $size] = self::imagePath( $data, array(
+
+/Users/alfonso/Sites/catering/app/Plugin/Upload/Model/Behavior/UploadBehavior.php:
+   41  		'thumbnailPrefixStyle'=> true,
+   42  		'thumbnailQuality'	=> 99,
+   43: 		'thumbnailSizes'	=> array(),
+   44  		'thumbnailType'		=> false,
+   45  		'deleteOnUpdate'	=> false,
+   ..
+  129  			// HACK: Remove me in next major version
+  130  			if (!empty($options['thumbsizes'])) {
+  131: 				$options['thumbnailSizes'] = $options['thumbsizes'];
+  132  			}
+  133  
+  ...
+ 1281  		$isVideo = $this->_isVideo($model, $this->runtime[$model->alias][$field]['type']);
+ 1282  		$createThumbnails = $this->settings[$model->alias][$field]['thumbnails'];
+ 1283: 		$hasThumbnails = !empty($this->settings[$model->alias][$field]['thumbnailSizes']);
+ 1284  
+ 1285  		if (($isImage || $isMedia) && $createThumbnails && $hasThumbnails) {
+ 1286  			$method = $this->settings[$model->alias][$field]['thumbnailMethod'];
+ 1287  
+ 1288: 			foreach ($this->settings[$model->alias][$field]['thumbnailSizes'] as $size => $geometry) {
+ 1289  				if( is_array( $geometry))
+ 1290  				{
+ ....
+ 1347      $FFmpeg->redirectOutput( " ");
+ 1348      
+ 1349:     foreach ($this->settings[$model->alias][$field]['thumbnailSizes'] as $size => $geometry) 
+ 1350      {
+ 1351      	if( is_array( $geometry))
+ ....
+ 1437  
+ 1438  		$createThumbnails = $options['thumbnails'];
+ 1439: 		$hasThumbnails = !empty($options['thumbnailSizes']);
+ 1440  
+ 1441  		if (!$createThumbnails || !$hasThumbnails) {
+ ....
+ 1479  		}
+ 1480  
+ 1481: 		foreach ($options['thumbnailSizes'] as $size => $geometry) {
+ 1482  			if( is_array( $geometry))
+ 1483  			{
+
+/Users/alfonso/Sites/catering/app/Plugin/Upload/README.markdown:
+   35      				'pathMethod' => 'random',
+   36      				'thumbnailQuality' => 100,
+   37:     				'thumbnailSizes' => array(
+   38      				    'min' => '50w',
+   39                  		'thm' => '100w',
+   ..
+  117  * `thumbnailQuality`: Quality of thumbnails that will be generated, on a scale of 0-100
+  118    * Default: (int) `75`
+  119: * `thumbnailSizes`: Array of thumbnail sizes, with the size-name mapping to a geometry
+  120    * Default: (array) empty
+  121  * `thumbnailType`: Override the type of the generated thumbnail
+  ...
+  141  			'Upload.Upload' => array(
+  142  				'photo' => array(
+  143: 					'thumbnailSizes' => array(
+  144  						'big' => '200x200',
+  145  						'small' => '120x120'
+
+/Users/alfonso/Sites/catering/app/Plugin/Upload/Test/Case/Model/Behavior/UploadTest.php:
+  769  		$this->TestUpload->actsAs['Upload.Upload'] = array(
+  770  			'photo' => array(
+  771: 				'thumbnailSizes' => array(
+  772  					'xvga' => '1024x768',
+  773  					'vga' => '640x480',
+  ...
+  796  		$this->TestUpload->actsAs['Upload.Upload'] = array(
+  797  			'photo' => array(
+  798: 				'thumbnailSizes' => array(
+  799  					'xvga' => '1024x768',
+  800  					'vga' => '640x480',
+  ...
+  824  		$this->TestUpload->actsAs['Upload.Upload'] = array(
+  825  			'photo' => array(
+  826: 				'thumbnailSizes' => array(
+  827  					'xvga' => '1024x768',
+  828  					'vga' => '640x480',
+  ...
+  852  		$this->TestUpload->actsAs['Upload.Upload'] = array(
+  853  			'photo' => array(
+  854: 				'thumbnailSizes' => array(
+  855  					'xvga' => '1024x768',
+  856  					'vga' => '640x480',
+
+18 matches across 6 files

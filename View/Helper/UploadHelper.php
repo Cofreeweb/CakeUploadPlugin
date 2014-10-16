@@ -551,5 +551,32 @@ class UploadHelper extends AppHelper
     return implode( "\n", $out);
   }
   
+  public function angularPlupload( $options)
+  {
+    $_options = array(
+        'includeHidden' => false
+    );
+
+    $options = array_merge( $_options, $options);
+
+    $out [] = " 
+    <button class=\"btn btn-success pl-upload-button\"
+      pl-upload 
+      pl-files-model=\"{$options ['ngModel']}\" 
+      pl-url=\"/upload/uploads/upload.json?model={$options ['contentModel']}&key={$options ['uploadKey']}&alias=Photo\"
+      ng-show=\"!{$options ['ngModel']}.paths.{$options ['size']} && !plUploading\"><i class=\"fa fa-arrow-circle-o-up\"></i></button>
+    <pl-upload-progress ng-model=\"isUploading\"></pl-upload-progress>
+    <pl-upload-image pl-src=\"{$options ['ngModel']}.paths.{$options ['size']}\" pl-files-model=\"{$options ['ngModel']}\"></pl-upload-image>
+    ";
+
+    if( $options ['includeHidden'] && isset( $options ['ngModel']))
+    {
+      $out [] = $this->Form->hidden( $options ['includeHidden'], array(
+          'value' => '{{ '. $options ['ngModel'] .' }}'
+      ));
+    }
+
+    return implode( "\n", $out);
+  }
 
 }

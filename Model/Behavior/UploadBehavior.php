@@ -176,7 +176,7 @@ class UploadBehavior extends ModelBehavior {
 				$options['pathMethod'] = 'primaryKey';
 			}
 			$options['pathMethod'] = '_getPath' . Inflector::camelize($options['pathMethod']);
-			$options['thumbnailMethod'] = '_resize' . Inflector::camelize($options['thumbnailMethod']);
+			$options['thumbnailMethod'] = 'resize' . Inflector::camelize($options['thumbnailMethod']);
 			$this->settings[$model->alias][$field] = $options;
 		}
 	}
@@ -889,7 +889,7 @@ class UploadBehavior extends ModelBehavior {
 		return $width > 0 && $imgWidth <= $width;
 	}
 
-	public function _resizeImagick(&$model, $field, $path, $size, $geometry, $thumbnailPath) {
+	public function resizeImagick(&$model, $field, $path, $size, $geometry, $thumbnailPath) {
 		$srcFile  = $path . $model->data[$model->alias][$field];
 		$pathInfo = $this->_pathinfo($srcFile);
 		$thumbnailType = $imageFormat = $this->settings[$model->alias][$field]['thumbnailType'];
@@ -990,8 +990,14 @@ class UploadBehavior extends ModelBehavior {
 		return true;
 	}
 
-	public function _resizePhp(&$model, $field, $path, $size, $geometry, $thumbnailPath) {
+	public function resizePhp( &$model, $field, $path, $size, $geometry, $thumbnailPath)
+	{
 		$srcFile  = $path . $model->data[$model->alias][$field];
+		return $this->resizeThmPhp( $model, $srcFile, $field, $path, $size, $geometry, $thumbnailPath);
+	}
+
+	public function resizeThmPhp( &$model, $srcFile, $field, $path, $size, $geometry, $thumbnailPath, $filename_force = false) 
+	{
 		$pathInfo = $this->_pathinfo($srcFile);
 		$thumbnailType = $this->settings[$model->alias][$field]['thumbnailType'];
 
@@ -1003,13 +1009,28 @@ class UploadBehavior extends ModelBehavior {
 			$thumbnailType = 'png';
 		}
 
-		$fileName = str_replace(
-			array('{size}', '{filename}', '{primaryKey}'),
-			array($size, $pathInfo['filename'], $model->id),
-			$this->settings[$model->alias][$field]['thumbnailName']
-		);
+		
+		if( $filename_force)
+		{
+			$fileName = str_replace(
+				array('{size}', '{filename}', '{primaryKey}'),
+				array($size, $filename_force, $model->id),
+				$this->settings[$model->alias][$field]['thumbnailName']
+			);
 
-		$destFile = "{$thumbnailPath}{$fileName}.{$thumbnailType}";
+			$destFile = "{$thumbnailPath}{$fileName}";
+		}
+		else
+		{
+			$fileName = str_replace(
+				array('{size}', '{filename}', '{primaryKey}'),
+				array($size, $pathInfo['filename'], $model->id),
+				$this->settings[$model->alias][$field]['thumbnailName']
+			);
+			$destFile = "{$thumbnailPath}{$fileName}.{$thumbnailType}";
+		}
+		
+
 
 		copy($srcFile, $destFile);
 		$src = null;
@@ -1286,6 +1307,11 @@ class UploadBehavior extends ModelBehavior {
 			$method = $this->settings[$model->alias][$field]['thumbnailMethod'];
 
 			foreach ($this->settings[$model->alias][$field]['thumbnailSizes'] as $size => $geometry) {
+				if( is_array( $geometry))
+				{
+					$geometry = $geometry ['size'];
+				}
+
 				$thumbnailPathSized = $this->_pathThumbnail($model, $field, compact(
 					'geometry', 'size', 'thumbnailPath'
 				));
@@ -1343,6 +1369,11 @@ class UploadBehavior extends ModelBehavior {
     
     foreach ($this->settings[$model->alias][$field]['thumbnailSizes'] as $size => $geometry) 
     {
+    	if( is_array( $geometry))
+			{
+				$geometry = $geometry ['size'];
+			}
+
 			$thumbnailPathSized = $this->_pathThumbnail($model, $field, compact(
 				'geometry', 'size', 'thumbnailPath'
 			));
@@ -1469,6 +1500,11 @@ class UploadBehavior extends ModelBehavior {
 		}
 
 		foreach ($options['thumbnailSizes'] as $size => $geometry) {
+			if( is_array( $geometry))
+			{
+				$geometry = $geometry ['size'];
+			}
+
 			$fileName = str_replace(
 				array('{size}', '{filename}', '{primaryKey}'),
 				array($size, $pathInfo['filename'], $model->id),
