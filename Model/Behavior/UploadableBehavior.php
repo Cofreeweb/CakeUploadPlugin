@@ -4,7 +4,7 @@ App::uses('UploadUtil', 'Upload.Lib/');
 class UploadableBehavior extends ModelBehavior 
 {
 
-	public function afterSave( Model $model, $created) 
+	public function afterSave( Model $model, $created, $options = array()) 
 	{
 	  foreach( $model->hasOne as $alias => $info)
 	  {

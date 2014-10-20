@@ -218,7 +218,7 @@ class UploadBehavior extends ModelBehavior {
  * @param AppModel $model Model instance
  * @return boolean
  */
-	public function beforeSave(Model $model) {
+	public function beforeSave(Model $model, $options = array()) {
 		$this->_removingOnly = array();
 		foreach ($this->settings[$model->alias] as $field => $options) {
 		  
@@ -279,7 +279,7 @@ class UploadBehavior extends ModelBehavior {
 		return true;
 	}
 
-	public function afterSave(Model $model, $created) {
+	public function afterSave(Model $model, $created, $options = array()) {
 	  
 		$temp = array($model->alias => array());
 		foreach ($this->settings[$model->alias] as $field => $options) {

@@ -16,7 +16,6 @@ class CropImageComponent extends Component
 
   public function crop( $upload, $data)
   {
-    CakeLog::write( 'debug', print_r( $data, true));
     $imagepath = substr( WWW_ROOT, 0, -1) . UploadUtil::filepath( $upload);
     $pathinfo = pathinfo($imagepath);
 

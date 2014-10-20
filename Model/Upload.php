@@ -11,7 +11,7 @@ class Upload extends UploadAppModel
 	public $displayField = 'title';
 	
 	
-	public function afterFind( $results)
+	public function afterFind( $results, $primary = false)
 	{
 	  if( isset( $results [0]))
 	  {
@@ -25,7 +25,7 @@ class Upload extends UploadAppModel
 	  return $results;
 	}
 	
-	public function beforeDelete()
+	public function beforeDelete( $cascade = true)
 	{
     // Borra el fichero 
 	  $content = $this->read();

@@ -81,7 +81,7 @@ class UploadUtil
     ));
   }
   
-  public function getConfig( $data)
+  public static function getConfig( $data)
   {
     if( !isset( $data ['id']))
     {
@@ -98,7 +98,7 @@ class UploadUtil
     return Configure::read( 'Upload.'. $type);
   }
   
-  public function paths( $data, $options = array())
+  public static function paths( $data, $options = array())
   {
     $config = self::getConfig( $data);
     
@@ -165,7 +165,7 @@ class UploadUtil
     return self::filePaths( $data, $options);
   }
   
-  public function imagePaths( $data)
+  public static function imagePaths( $data)
   {
     if( !isset( $data ['id']))
     {
@@ -190,7 +190,7 @@ class UploadUtil
     return $return;
   }
   
-  public function imagePath( $data, $options = array())
+  public static function imagePath( $data, $options = array())
   {
     if( !is_array( $data))
     {
