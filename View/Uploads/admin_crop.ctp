@@ -7,7 +7,7 @@
           {{ thm.name }}
         </span>
 
-        <button ng-click="cancel()" class="btn pull-right m-t-n-xs btn-danger btn-rounded"><i class="fa fa-times"></i></button> 
+        <a ng-click="cancel()" class="pull-right m-l block"><i class="fa fa-times"></i></a> 
         <button ng-click="uploadCrop()" class="btn pull-right m-t-n-xs w-xs btn-success btn-rounded"><?= __d( 'admin', 'Guardar') ?></button>
 
       </div>

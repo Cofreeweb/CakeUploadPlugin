@@ -7,6 +7,7 @@
           <?= __d( 'admin', 'Textos de la foto') ?>
         </span>
 
+        <a ng-click="cancel()" class="pull-right m-l block"><i class="fa fa-times"></i></a> 
         <button ng-click="cancel()" class="btn pull-right m-t-n-xs w-xs btn-success btn-rounded"><?= __d( 'admin', 'Guardar') ?></button>
 
       </div>
