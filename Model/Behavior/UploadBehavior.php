@@ -1318,7 +1318,7 @@ class UploadBehavior extends ModelBehavior {
 				
 				$this->_mkPath($thumbnailPathSized);
 				if (!$this->$method($model, $field, $path, $size, $geometry, $thumbnailPathSized)) {
-					$model->invalidate($field, __d( "upload", "No ha podido procesarse el archivo"));
+					$model->invalidate($field, __d( "upload", "No ha posdfsddido procesarse el archivo"));
 				}
 			}
 		}

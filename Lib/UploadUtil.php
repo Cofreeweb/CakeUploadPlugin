@@ -2,7 +2,7 @@
 
 class UploadUtil
 {
-  public function ext( $data)
+  public static function ext( $data)
   {
     $types = array(
         'image/jpeg' => 'jpg',
@@ -16,7 +16,7 @@ class UploadUtil
     return $types [$data ['mimetype']];
   }
   
-  public function file( $data, $attributes = array())
+  public static function file( $data, $attributes = array())
   {
     if( !isset( $data ['id']))
     {
@@ -42,7 +42,7 @@ class UploadUtil
  * @param string $filename 
  * @return string
  */
-  public function fileExt( $filename)
+  public static function fileExt( $filename)
   {
     $ext = pathinfo( $filename, PATHINFO_EXTENSION);
     return $ext;
@@ -55,7 +55,7 @@ class UploadUtil
  * @param string $ext 
  * @return string
  */
-  public function changeExt( $filename, $ext)
+  public static function changeExt( $filename, $ext)
   {
     $ext2 = self::fileExt( $filename);
     $filename = str_replace( '.'. $ext2, '.'. $ext, $filename);
@@ -63,7 +63,7 @@ class UploadUtil
   }
   
   
-  public function thumbailPath( $data)
+  public static function thumbailPath( $data)
   {
     $config = self::getConfig( $data);
     $size = $config ['thumbail'];
@@ -72,7 +72,7 @@ class UploadUtil
     ));
   }
   
-  public function thumbailPathMulti( $data)
+  public static function thumbailPathMulti( $data)
   {
     $config = self::getConfig( $data);
     $size = $config ['thumbail'];
@@ -112,7 +112,7 @@ class UploadUtil
     
     if( method_exists( 'UploadUtil', $method))
     {
-      return (array)self::$method( $data);
+      return (array)static::$method( $data);
     }
     
     return array();
@@ -120,7 +120,7 @@ class UploadUtil
   
   
   
-  public function docPaths( $data, $options = array())
+  public static function docPaths( $data, $options = array())
   {
     $return = self::filePaths( $data, $options);
     return array( $return);
@@ -131,7 +131,7 @@ class UploadUtil
     return self::imagePath( $data, $options);
   }
   
-  public function filePaths( $data, $options = array())
+  public static function filePaths( $data, $options = array())
   {
     if( !isset( $data ['id']))
     {
@@ -160,7 +160,7 @@ class UploadUtil
  * @param array $options 
  * @return void
  */
-  public function filePath( $data, $options = array())
+  public static function filePath( $data, $options = array())
   {
     return self::filePaths( $data, $options);
   }
@@ -235,7 +235,7 @@ class UploadUtil
   
   
   
-  function imagePathMulti( $data, $options = array())
+  public static function imagePathMulti( $data, $options = array())
   {
     if( !isset( $data ['id']))
     {
