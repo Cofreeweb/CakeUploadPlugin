@@ -365,7 +365,14 @@ class UploadHelper extends AppHelper
 
     if( isset( $this->request->params ['admin']) || $this->request->controller == 'crud')
     {
-      $template = 'Upload.json/'. $config ['type'];
+      if( isset( $config ['template']))
+      {
+        $template = 'uploads/json/'. $config ['template'];
+      }
+      else
+      {
+        $template = 'Upload.json/'. $config ['type'];
+      }
     }
     else
     {
