@@ -126,7 +126,7 @@ class UploadUtil
     return array( $return);
   }
   
-  public function videoPaths( $data, $options = array())
+  public static function videoPaths( $data, $options = array())
   {
     return self::imagePath( $data, $options);
   }
