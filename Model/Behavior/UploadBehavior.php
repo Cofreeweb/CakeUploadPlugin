@@ -243,7 +243,7 @@ class UploadBehavior extends ModelBehavior {
 						'contain' => false,
 						'recursive' => -1,
 					));
-					$this->_prepareFilesForDeletion($model, $field, $data, $options);
+					// $this->_prepareFilesForDeletion($model, $field, $data, $options);
 				}
 
 				if ($removing) {
@@ -391,7 +391,7 @@ class UploadBehavior extends ModelBehavior {
 		));
 
 		foreach ($this->settings[$model->alias] as $field => $options) {
-			$this->_prepareFilesForDeletion($model, $field, $data, $options);
+			// $this->_prepareFilesForDeletion($model, $field, $data, $options);
 		}
 		return true;
 	}
