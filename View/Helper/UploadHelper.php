@@ -378,7 +378,7 @@ class UploadHelper extends AppHelper
     {
       $template = 'uploads/json/'. $config ['template'];
     }
-    
+
     return $this->_View->element( $template, array(
         'upload' => $data,
         'alias' => $options ['alias']
